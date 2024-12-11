@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Map Interface</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-dispatch@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-selection@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-drag@3"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 20px;
+      }
+
+      .controlsContainer {
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 8px;
+      }
+
+      h1 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+
+      .sliderContainer {
+        margin-bottom: 20px;
+      }
+
+      .sliderContainer label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+
+      .sliderContainer input[type="range"] {
+        width: 100%;
+        margin-bottom: 5px;
+      }
+
+      .mapContainer {
+        min-height: 844px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      #tooltip {
+        visibility: hidden;
+        background: #ffffff;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="controlsContainer">
+        <div id="description">
+          <h2>Bay Area Restaurants</h2>
+          <p>
+            This interactive map allows users to explore restaurants in the Bay
+            Area based on customizable filters such as price range and customer
+            ratings. The two draggable circles represent geographic areas of
+            interest. Restaurants that fall within the overlapping region of
+            these circles and meet the selected price and rating criteria will
+            be highlighted. Use this tool to discover top-rated restaurants that
+            meet your preferences in terms of location and cost.
+          </p>
+          <h3 style="text-decoration: underline">Filters:</h3>
+        </div>
+
+        <div class="sliderContainer">
+          <label for="radiusASlider">Radius A:</label>
+          <input
+            type="range"
+            id="radiusASlider"
+            min="25"
+            max="350"
+            value="100"
+          />
+          <span id="radiusALabel">100</span>
+        </div>
+        <div class="sliderContainer">
+          <label for="radiusBSlider">Radius B:</label>
+          <input
+            type="range"
+            id="radiusBSlider"
+            min="25"
+            max="350"
+            value="100"
+          />
+          <span id="radiusBLabel">100</span>
+        </div>
+        <div id="hoverInfo">
+          <p><strong>Restaurant Information:</strong></p>
+          <p id="hoverRestaurantName">Restaurant Name: --</p>
+          <p id="hoverRestaurantRating">Rating: --</p>
+        </div>
+        <div>
+          <h3>Ratings:</h3>
+          <input type="checkbox" id="rating1" value="4-5" /> 4.0 - 5.0<br />
+          <input type="checkbox" id="rating2" value="3-4" /> 3.0 - 3.99<br />
+          <input type="checkbox" id="rating3" value="2-3" /> 2.0 - 2.99<br />
+          <input type="checkbox" id="rating4" value="1-2" /> 1.0 - 1.99<br />
+        </div>
+        <div>
+          <h3>Price Range:</h3>
+          <input type="checkbox" id="price1" value="$" /> $<br />
+          <input type="checkbox" id="price2" value="$$" /> $$<br />
+          <input type="checkbox" id="price3" value="$$$" /> $$$<br />
+          <input type="checkbox" id="price4" value="$$$$" /> $$$$<br />
+        </div>
+      </div>
+      <div class="mapContainer" id="mapContainer"></div>
+    </div>
+    <div id="tooltip"></div>
+    <script src="script.js"></script>
+
+    <div
+      id="tooltip-box"
+      style="
+        max-width: 2px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+        font-size: 20px;
+        color: #333;
+        position: absolute;
+        visibility: hidden;
+      "
+    ></div>
+  </body>
+</html>
